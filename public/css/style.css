@@ -1,0 +1,116 @@
+
+body{
+    font-family: "Plus Jakarta Sans", sans-serif !important ;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+ .container{
+    flex: 1;
+ }
+ .navbar{
+    height: 5rem;
+    background-image: linear-gradient(to right, #ff8177 0%, #ff867a 0%, #ff8c7f 21%, #f99185 52%, #cf556c 78%, #b12a5b 100%);
+ }
+ .fa-compass{
+    font-size: 3rem;
+    color: #fe424d;
+ } 
+ .nav-link{
+   color: white !important;
+ }
+ .f-info-links a{
+    color: #222222;
+    text-decoration: none;
+ }
+ .f-info-links a:hover{
+     text-decoration : underline;
+ } 
+ .f-info-links,
+ .f-info-social,
+ .f-info-brand{
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+ }
+ .f-info-social i{
+    font-size: 1.2rem;
+    margin-right: 1rem;
+ }
+
+ .card-body{
+   margin-top: 10px;
+ }
+ .starability-result{
+   margin-top: 9px;
+ }
+ .f-info{
+    height: 7rem;
+    display: flex;
+    background-image: linear-gradient(to right, #ff8177 0%, #ff867a 0%, #ff8c7f 21%, #f99185 52%, #cf556c 78%, #b12a5b 100%);
+    justify-content: center;
+    align-items: space-evenly;
+    flex-wrap: wrap;
+ }
+
+ .listing-card{
+    border: none !important;
+    margin-bottom: 2rem;
+ }
+ .card-img-top{
+    border-radius: 1rem !important;
+    width: 100% !important;
+    object-fit: cover !important;
+ }
+ .card-body{
+    padding: 0 !important;
+ }
+ .card-text p{
+    font-weight: 400 !important;
+ }
+ 
+ .listing-link{
+    text-decoration: none;
+ }
+ .card-img-overlay{
+    opacity: 0;
+ }
+ .card-img-overlay:hover{
+    opacity: 0.2;
+    background-color: white;
+ }
+ /* New page*/
+  .add-btn{
+    background-color: #fe424d !important;
+    border: none !important;
+ }
+/* Edit Page */
+ .edit-btn{
+    background-color: #fe424d !important;
+    border: none !important;
+ }
+
+ .show-img{
+    height: 30vh;
+ }
+ .btns{
+    display: flex;
+ }
+ .btn-outline-black{
+   border: 1px solid black;
+ }
+ #map{
+   height: 460px;
+   /* width: 760px; */
+   width: 110%;
+   border: 5px solid #d0d0d3;
+   border-style: ridge;
+   margin-left: -18%;
+   border-radius: 14px;
+ }
+ .maph3 {
+   margin-left: -70px;
+   font-weight: 700 !important;
+ }
+ 

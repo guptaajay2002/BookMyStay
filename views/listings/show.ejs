@@ -1,0 +1,173 @@
+<% layout('/layouts/boilerplate') -%>
+<script>
+    const mapToken = "<%=process.env.MAP_TOKEN%>";
+    const listing =<%-JSON.stringify(listing) %>;
+</script>
+<div class="row mt-3">
+    <div class="col-6 offset-3">
+    <h3><%=listing.title%></h3>
+    </div> 
+    <div class="card col-6 offset-3 listing-card">
+        <img src="<%=listing.image.url%>" class="card-img-top show-img" alt="listing image">
+        <div class="card-body">
+          <p class="card-text"> <strong>Owned by <%= listing.owner.username%></strong></p>
+            <p><b>Description</b> : <%=listing.description%></p>
+            <p><b>Cost</b> : &#8377;<%=listing.price.toLocaleString("en-IN")%></p>
+            <p><b>Place</b> : <%=listing.location%></p>
+            <p><b>Country</b> :<%=listing.country%></p>
+        </div>
+    </div>
+    <% if(currUser && listing.owner._id.equals(currUser._id)) {%>
+    <div class="btns">
+        <a href="/listings/<%=listing._id%>/edit" class="btn btn-dark col-1 offset-3 edit-btn">Edit </a>
+        <form method="post" action="/listings/<%=listing.id%>?_method=DELETE">
+                <button class="btn btn-dark offset-5">Delete</button>
+        </form>
+    </div>
+    <%}%>
+ 
+   
+    <div class="col-6 offset-3 mb-3">
+        <% if(currUser) {%>
+            <hr/>
+        <h4><b>Leave a review</b></h4>
+        <form action="/listings/<%=listing.id%>/review" method="post" novalidate class="needs-validation">
+
+            <div class="mt-3 mb-3">
+                <label for="rating" class="form-label ">Rating </label>
+            <fieldset class="starability-slot">
+                <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
+                <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                <label for="first-rate1" title="Terrible">1 star</label>
+                <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                <label for="first-rate2" title="Not good">2 stars</label>
+                <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                <label for="first-rate3" title="Average">3 stars</label>
+                <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                <label for="first-rate4" title="Very good">4 stars</label>
+                <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                <label for="first-rate5" title="Amazing">5 stars</label>
+              </fieldset>
+            </div>
+
+            <div class="mt-3 mb-3">
+                <label for="comment" class="form-label">Comments</label>
+                <textarea class="form-control" name="review[comment]" rows="5" cols="30" required></textarea>
+                <div class="invalid-feedback">Please add some valid comments.</div>
+            </div>
+            <button class="btn btn-outline-dark mt-3">Submit</button>
+        </form>
+        <hr/>
+      <%}%>
+         
+       <% if(listing.review.length > 0){%>
+        <div class="row">
+           <p><b>All Reviews</b></p>
+            <% for(review of listing.review) {%>
+             <div class="card col-5 ms-3 mb-3">
+                <div class="card-body">
+                    <i class="fa-solid fa-circle-user fa-lg" style="color: #ff0000;">&nbsp;</i><b>@<%= review.author.username%></b><br>
+                    <p class="starability-result card-text" data-rating="<%=review.rating%>"> </p>
+                    <p class="card-text"><%=review.comment%></p>
+                </div>
+                <% if(currUser && currUser._id.equals(review.author._id)) { %>
+                <form method="post" action="/listings/<%=listing.id%>/review/<%= review.id%>?_method=DELETE" class="mb-3">
+                    <button class="btn btn-sm btn-danger mt-2">Delete</button>
+                 </form>
+                 <%}%>
+             </div>     
+        <%}%>
+    </div>
+    <hr/>
+    <%}%>
+    </div>
+   
+    <div class="col-8 offset-3 mb-3">
+        <h4 class="maph3">
+          <i class="fa-solid fa-compass fa-spin fa-sm" style="color: #ff0000"></i>&nbsp;Where you’ll be
+        </h4>
+        <p class="card-text maph3" id="location-p" style="margin-top: 10px; font-weight: 100 !important">
+          <%= listing.location %>, <%= listing.country %>
+        </p>
+        <div style="height: 20px"></div>
+        <div id="map"></div>
+      </div>
+    <hr/>
+    <h2 class="text-center p-4">Frequently Asked Questions</h2>
+    <div class="accordion col-9 mx-auto" id="accordionExample">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            How do I search for available properties?
+          </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            To search for available properties, navigate to the <b>Search bar</b> on the homepage. Enter your desired location, title of a house if you already know , category , budget & any other preferences such as amenities or property type. Click on the search button to see a list of available properties that match your criteria.
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            Can I request additional services or amenities?
+          </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <b>Yes</b>, you can request additional services such as housekeeping, airport transfers, grocery delivery, or special requests like extra bedding or baby cribs. Contact the property owner/manager or use our messaging platform to make your requests.
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            What safety measures are in place?
+          </button>
+        </h2>
+        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            Our properties adhere to <b>Safety</b> standards and may include features such as smoke detectors, fire extinguishers, first aid kits, and emergency contact information. We also recommend familiarizing yourself with the property's layout and emergency exits upon check-in.
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="#collapseFour">
+            What payment methods are accepted?
+          </button>
+        </h2>
+        <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            We accept a variety of payment methods including <strong>credit/debit cards (Visa, MasterCard, American Express), PayPal, UPIs, Wallet and bank transfers</strong>. You can choose your preferred payment method during the checkout process. You will get the receipt of your payment method in your email address. This feature is build by me through Razorpay Payment Gateway.<strong>It is not a fake process it can actually debit your money while booking.</strong>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+            Are pets allowed in the properties?
+          </button>
+        </h2>
+        <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            Some properties may <b>Allow</b> pets while others may have restrictions or additional fees for pets. You can filter your search to find pet-friendly properties or contact the property owner/manager for more information about their pet policy.
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+            Do I need to create an account to add a review or make a payment?
+          </button>
+        </h2>
+        <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <strong>Yes</strong>, you need to be logged in to add a review or make a payment for booking a house. Creating an account ensures that we can provide a secure and personalized experience for all our users. It also helps us verify the authenticity of reviews and manage your bookings efficiently. You can easily sign up or log in using the "Login/Sign Up" button on the top right corner of the website.
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+</div>    
+<script src="/js/map.js"></script>
