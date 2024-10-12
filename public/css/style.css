@@ -12,6 +12,11 @@ body{
     height: 5rem;
     background-image: linear-gradient(to right, #ff8177 0%, #ff867a 0%, #ff8c7f 21%, #f99185 52%, #cf556c 78%, #b12a5b 100%);
  }
+ .navbar-nav a:hover{
+   color: white !important;
+   border-bottom: 1px solid white !important;
+  
+ }
  .fa-compass{
     font-size: 3rem;
     color: #fe424d;
