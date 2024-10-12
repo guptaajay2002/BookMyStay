@@ -73,6 +73,9 @@ main()
 async function main() {
     await mongoose.connect(dbUrl);
 }
+app.get("/",(req,res) =>{
+    res.redirect("/listings");
+});
 
 app.use((req,res,next) =>{
     res.locals.success = req.flash("success");
@@ -94,9 +97,7 @@ app.use("/listings/:id/review",reviewRouter);
 
 app.use("/",userRouter);
 
-app.get("/",(req,res) =>{
-     res.send("working");
-});
+
 
 
 app.all("*",(req,res,next) =>{
