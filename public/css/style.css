@@ -21,9 +21,6 @@ body{
     font-size: 3rem;
     color: #fe424d;
  } 
- .nav-link{
-   color: white !important;
- }
  .f-info-links a{
     color: #222222;
     text-decoration: none;
