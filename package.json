@@ -1,6 +1,6 @@
 {
   "engines" :{
-    "node" : "20.9.0" 
+    "node" : "v20.9.0" 
   },
   "name": "minor-project",
   "version": "1.0.0",
