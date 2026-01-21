@@ -1,6 +1,7 @@
 if(process.env.NODE_ENV != "production"){
     require("dotenv").config();
 }
+const port = process.env.PORT || 3030;
 
 const express  = require("express");
 const app = express();
@@ -102,7 +103,7 @@ app.use((err,req,res,next) => {
      res.status(statusCode).render("error.ejs",{message});
 })
 app.listen(3030,()=>{
-    console.log("Server is listening to port 3030");
+    console.log(`Server is listening to port ${port}`);
 })
 
 
